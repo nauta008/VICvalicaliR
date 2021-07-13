@@ -12,7 +12,9 @@ LazyData: true
 Imports: 
     yaml,
     stars,
-    lubridate
+    lubridate,
+    ncdf4.helpers,
+    dplyr
 Depends: 
     logger
 RoxygenNote: 7.1.0

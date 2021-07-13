@@ -1,7 +1,8 @@
 
-.VICtools <- new.env(parent = emptyenv())
+#' @export
+.VICvalicaliR <- new.env(parent = emptyenv())
 
-.VICtools$settings <- list(
+.VICvalicaliR$settings <- list(
   mode=NULL,
   log=NULL,
   log_level="INFO"

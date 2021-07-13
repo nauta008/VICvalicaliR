@@ -4,9 +4,6 @@
 \name{Frequency-class}
 \alias{Frequency-class}
 \title{Frequency}
-\value{
-
-}
 \description{
 Frequency
 }

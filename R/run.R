@@ -9,11 +9,10 @@
 #'
 #' @examples
 run_tool <- function(config){
-  read_settings(config)
+  settings.read(config)
   logger.init()
-  if(.VICtools$settings$mode == "validation"){
-    validation <- new("Validation")
-    set(validation)
+  if(.VICvalicaliR$settings$mode == "validation"){
+    validation <- as.validation(.VICvalicaliR$settings$validation)
     run(validation)
   }
 }

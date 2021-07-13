@@ -19,24 +19,20 @@
 #' @slot value numeric.
 #' @slot period character.
 #'
-#' @return
-#'
-#' @examples
+
 setClass("Frequency", slots = list(value= "numeric",period="character"))
-#setClass("ObservationSettings", slots = list(file="character", dis="character"))
-#setClass("SimulationSettings", slots = list(file="character"))
-#setClass("ValidationSettings", slots = list(start="character",end="character"))
-#setClass("Settings", slots=list(mode="character",log="character", observations="ObservationSettings"))
+
+
+setClass("Verification", slots=list(method="character", var="character",state="character",start="POSIXct", end="POSIXct"), prototype = list(
+  state="CREATED"
+))
 
 #' Validation
 #'
 #' @slot start POSIXct.
 #' @slot end POSIXct.
 #'
-#' @return
-#'
-#' @examples
-setClass("Validation", slots = list(start="POSIXct", end="POSIXct"))
+setClass("Validation", slots = list(start="POSIXct", end="POSIXct", verifications="list",output="character"))
 
 
 

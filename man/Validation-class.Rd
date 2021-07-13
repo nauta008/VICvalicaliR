@@ -4,9 +4,6 @@
 \name{Validation-class}
 \alias{Validation-class}
 \title{Validation}
-\value{
-
-}
 \description{
 Validation
 }

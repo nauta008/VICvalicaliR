@@ -1,7 +1,9 @@
 
 ncdf.create <- function(file){
   # remove old file
-  file.remove(file)
+  if(file.exists(file)){
+    file.remove(file)
+  }
   sys_info <- Sys.info()
   nc_vars <- list()
   # load domain

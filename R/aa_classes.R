@@ -32,7 +32,7 @@ setClass("Verification", slots=list(method="character", var="character",state="c
 #' @slot start POSIXct.
 #' @slot end POSIXct.
 #'
-setClass("Validation", slots = list(start="POSIXct", end="POSIXct", verifications="list",output="character"))
+setClass("Validation", slots = list(start="POSIXct", end="POSIXct", verifications="list",netcdf="character"))
 
 
 

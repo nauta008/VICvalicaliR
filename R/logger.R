@@ -10,6 +10,7 @@ logger.init <- function(){
   log_layout(log_format, index = 1)
   log_appender(appender_console)
   .VICvalicaliR$settings$log_level <- toupper(.VICvalicaliR$settings$log_level)
+  .VICvalicaliR$settings$log <- file.path(.VICvalicaliR$settings$output, sprintf("VICvalicaliR_%s.log", strftime(lubridate::now(),format = "%Y%m%d%H%M%S")))
   # set log threshold
   if(.VICvalicaliR$settings$log_level=="INFO"){
     log_threshold(INFO)

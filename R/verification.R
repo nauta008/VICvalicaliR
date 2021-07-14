@@ -11,6 +11,7 @@ as.verification <- function(settings){
 
 #' @importFrom dplyr slice pull %>%
 setMethod("start", signature("Verification") ,function(x){
+  x@state <- "RUNNING"
   log_info(sprintf("Start model verification on %s and method %s", x@var, x@method))
   # load time series from observations
   nc_obs <- ncdf4::nc_open(.VICvalicaliR$settings$observation$file)
@@ -44,7 +45,7 @@ setMethod("start", signature("Verification") ,function(x){
     upstream_area_var <- .VICvalicaliR$settings$routing[["upstream_area"]]
     upstream_area <- stars::read_ncdf(.VICvalicaliR$settings$routing$file, var = upstream_area_var)
     # specific discharge in mm/d
-    sim <- sim_dis / upstream_area  * (3600 * 24  * 1000) # assumes seconds -> day & meters -> mm
+    sim <- sim_dis / upstream_area  * (3600 * 24  * 1000) # seconds -> day & meters -> mm
   }
   log_debug("Read observation data.")
   obs <- stars::read_ncdf(.VICvalicaliR$settings$observation$file, var = obs_varname, ncsub = obs_ncsub, make_units = F)
@@ -53,6 +54,25 @@ setMethod("start", signature("Verification") ,function(x){
   if(x@method=="NSE"){
     res_st <- nse(sim,obs)
   }
-  names(res_st) <- sprintf("%s_%s",x@method,x@var)
+  else if(x@method=="KGE"){
+    res_st <- kge(sim,obs)
+  }
+  else{
+    log_warn(sprintf("Skipping method %s. Method %s not implemented. Choose NSE or KGE."))
+    x@state <- "ERROR"
+    return(res_st)
+  }
+
+  # set attributes names
+  if(length(res_st)==1){
+    names(res_st) <- sprintf("%s_%s",x@var,x@method)
+  }
+  # for verifcations with sub components. e.g. KGE
+  else if(length(res_st)>1){
+    names(res_st) <- sapply(names(res_st), FUN=function(attr_name){
+      new_name <- sprintf("%s_%s_%s",x@var,x@method,attr_name)
+    })
+  }
+  x@state <- "SUCCESS"
   return(res_st)
 })

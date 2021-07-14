@@ -26,6 +26,8 @@ setMethod("start", signature("Validation"), function(x){
   log_debug("Start validation")
   for(verification in x@verifications){
     result_st <- start(verification)
-    ncdf.write.data(x@output,result_st)
+    if(!is.null(result_st)){
+      ncdf.write.data(x@output,result_st)
+    }
   }
 })

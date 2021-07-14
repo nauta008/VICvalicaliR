@@ -28,6 +28,7 @@ ncdf.create <- function(file){
   # close file
   ncdf4::nc_close(nc_new)
   ncdf4::nc_close(nc_domain)
+  log_info(sprintf("Created ncdf output file %s", file))
 }
 
 
@@ -41,7 +42,7 @@ ncdf.create <- function(file){
 #'
 #' @examples
 ncdf.write.data <- function(file, st_data){
-  log_info(sprintf("Writing %s to %s", names(st_data), file))
+  log_info(sprintf("Writing %s to %s", paste(names(st_data),collapse = ', '), file))
   var_names <- names(st_data)
   data_dim_names <- dimnames(st_data)
   data_dims <- dim(st_data)

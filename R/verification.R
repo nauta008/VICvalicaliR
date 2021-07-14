@@ -44,16 +44,15 @@ setMethod("start", signature("Verification") ,function(x){
     upstream_area_var <- .VICvalicaliR$settings$routing[["upstream_area"]]
     upstream_area <- stars::read_ncdf(.VICvalicaliR$settings$routing$file, var = upstream_area_var)
     # specific discharge in mm/d
-    sim <- sim_dis / upstream_area  * (3600 * 24  / 1000)
+    sim <- sim_dis / upstream_area  * (3600 * 24  * 1000) # assumes seconds -> day & meters -> mm
   }
   log_debug("Read observation data.")
   obs <- stars::read_ncdf(.VICvalicaliR$settings$observation$file, var = obs_varname, ncsub = obs_ncsub, make_units = F)
-  browser()
   sim <- stars::st_as_stars(replicate(sim %>% pull(),n = dim(obs)[4]), dimensions=stars::st_dimensions(obs))
   res_st <- NULL
   if(x@method=="NSE"){
     res_st <- nse(sim,obs)
   }
-  names(res_st) <- sprintf("%s.%s",x@method,x@var)
+  names(res_st) <- sprintf("%s_%s",x@method,x@var)
   return(res_st)
 })

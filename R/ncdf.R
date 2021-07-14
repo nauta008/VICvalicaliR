@@ -30,6 +30,46 @@ ncdf.create <- function(file){
   ncdf4::nc_close(nc_domain)
 }
 
-ncdf.write <- function(file, st_data){
+
+#' Title
+#'
+#' @param file
+#' @param st_data
+#'
+#' @return
+#' @importFrom dplyr select
+#'
+#' @examples
+ncdf.write.data <- function(file, st_data){
   log_info(sprintf("Writing %s to %s", names(st_data), file))
+  var_names <- names(st_data)
+  data_dim_names <- dimnames(st_data)
+  data_dims <- dim(st_data)
+
+  # open file
+  nc <- ncdf4::nc_open(file, write = T)
+  file_dim_names <- names(nc$dim)
+
+  nc_dim_list <- list()
+  # loop through dims
+  for(dim_name in data_dim_names){
+    if(dim_name %in% file_dim_names){
+      nc_dim <- nc$dim[[dim_name]]
+    }
+    else{
+      nc_dim <- ncdf4::ncdim_def(dim_name,units = "", vals=stars::st_get_dimension_values(st_data,which = dim_name, center = T))
+    }
+    nc_dim_list[[dim_name]] <- nc_dim
+  }
+
+  # loop through attributes
+  for(var_name in var_names){
+    long_name <- var_name
+    nc_var <- ncdf4::ncvar_def(var_name,"", nc_dim_list, 1e20, prec = "float",compression = 9)
+    ncdf4::ncvar_add(nc,nc_var)
+    ncdf4::nc_close(nc)
+    nc <- ncdf4::nc_open(file, write = T)
+    ncdf4::ncvar_put(nc,var_name, vals= st_data %>% select(var_name) %>% pull())
+  }
+  ncdf4::nc_close(nc)
 }

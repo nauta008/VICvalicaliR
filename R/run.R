@@ -15,4 +15,5 @@ run_tool <- function(config){
     validation <- as.validation(.VICvalicaliR$settings$validation)
     run(validation)
   }
+  log_info("VICvaliCaliR finished")
 }

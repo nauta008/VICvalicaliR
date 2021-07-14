@@ -13,7 +13,6 @@ nse <- function(sim,obs){
     val <- 1 - a/c
     return(val)
   })
-  browser()
   return(res)
 }
 

@@ -19,12 +19,13 @@ setMethod("run", signature("Validation"), function(x){
   # create output file
   ncdf.create(x@output)
   start(x)
+  log_info("Validation run finished.")
 })
 
 setMethod("start", signature("Validation"), function(x){
   log_debug("Start validation")
   for(verification in x@verifications){
     result_st <- start(verification)
-    ncdf.write(x@output,result_st)
+    ncdf.write.data(x@output,result_st)
   }
 })

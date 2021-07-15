@@ -11,10 +11,12 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     yaml,
-    stars,
     lubridate,
     ncdf4.helpers,
-    dplyr
+    dplyr,
+    xts
 Depends: 
-    logger
+    logger,
+    methods,
+    stars
 RoxygenNote: 7.1.0

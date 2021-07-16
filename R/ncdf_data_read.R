@@ -1,5 +1,5 @@
 
-ncdf.data.read <- function(conn,var, sdt=NULL, edt=NULL){
+ncdf.data.read <- function(conn,var, sdt, edt){
   nc <- ncdf4::nc_open(conn)
   # get dim names
   dim_names <- sapply(nc$var[[var]]$dim,FUN = function(x){x$name})
@@ -15,14 +15,14 @@ ncdf.data.read <- function(conn,var, sdt=NULL, edt=NULL){
     time_dim_idx <- which(dim_names=="time")
     sdt_idx <- 1
     edt_idx <- nc$dim$time$len
-    if(!is.null(sdt)){
+    if(! missing(sdt)){
       sdt_idx <- which(as.character(time)==as.character(sdt))
       if(length(sdt_idx)!=1){
         log_warn(sprintf("Cannot find start date %s in ncdf file %s. Read all times from start.", as.character(sdt),conn))
         sdt_idx <- 1
       }
     }
-    if(!is.null(edt)){
+    if(! missing(edt)){
       edt_idx <- which(as.character(time)==as.character(edt))
       if(length(edt_idx)!= 1){
         log_warn(sprintf("Cannot find end date %s in ncdf file %s. Read all times till end", as.character(edt),conn))

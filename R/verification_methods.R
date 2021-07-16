@@ -1,9 +1,9 @@
 
 nse <- function(sim,obs){
   log_debug("Calculate Nash–Sutcliffe efficiency")
-  data <- c(sim=sim, obs=obs)
-  names(data) <- c("sim","obs")
-  data <- merge(data, name="attributes")
+  data <- sim
+  data$obs <- obs %>% pull()
+  data <- merge(data, attributes=c("sim","obs"))
   res <- stars::st_apply(data, MARGIN=c("x","y","stations"), FUN=function(data_series){
     bias <- data_series[,1] - data_series[,2]
     a <- sum(bias^2, na.rm=T)
@@ -18,9 +18,11 @@ nse <- function(sim,obs){
 
 kge <- function(sim,obs, use_gamma=T){
   log_debug("Calculate Kling-Gupta Efficiency")
-  data <- c(sim=sim, obs=obs)
-  names(data) <- c("sim","obs")
-  data <- merge(data, name="attributes")
+  #data <- c(sim=sim, obs=obs)
+  #names(data) <- c("sim","obs")
+  data <- sim
+  data$obs <- obs %>% pull()
+  data <- merge(data, attributes=c("sim","obs"))
   kge_components <- function(data_series){
     r_pearson <- cor(data_series[,1], data_series[,2], method="pearson", use="pairwise.complete.obs")
     # means

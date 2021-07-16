@@ -1,5 +1,6 @@
 
 timeseries.plot <- function(data_sf, file=NULL){
+  log_debug("Plot validation timeseries")
   dims <- dim(data_sf)
   var_name <- names(data_sf)
 

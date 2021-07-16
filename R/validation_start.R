@@ -1,23 +1,3 @@
-
-as.validation <- function(settings){
-  validation <- new("Validation")
-  validation@start <- lubridate::parse_date_time(settings$start, "ymd")
-  validation@end <- lubridate::parse_date_time(settings$end, "ymd")
-  for(veri_settings in settings$verification){
-    veri_settings$start <- validation@start
-    veri_settings$end <- validation@end
-    new_verification <- as.verification(veri_settings)
-    validation@verifications <- append(validation@verifications, new_verification)
-  }
-  for(timeseries_settings in settings$timeseries){
-    ts <- as.timeseries(timeseries_settings)
-    ts@start <- validation@start
-    ts@end <- validation@end
-    validation@timeseries <- append(validation@timeseries,ts)
-  }
-  return(validation)
-}
-
 #' @name run
 setMethod("run", signature("Validation"), function(x){
   log_debug("Start validation run.")
@@ -47,8 +27,9 @@ setMethod("start", signature("Validation"), function(x){
   }
   # generate timeseries
   for(ts in x@timeseries){
-    series_sf <- create(ts)
-    out_file <- file.path(x@ts_plots,sprintf("timeseries_%s.pdf",ts@var))
+    browser()
+    series_sf <- data.get(ts, sdt=x@start, edt=x@end)
+    out_file <- file.path(x@ts_plots,sprintf("timeseries_%s.pdf",ts@dataset@var))
     timeseries.plot(series_sf,out_file)
   }
 })

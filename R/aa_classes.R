@@ -28,12 +28,13 @@ setClass("TemporalAggregation",slots = list(by="character", fun="function") ,con
   fun=mean
 ))
 
-setClass("Timeseries", slots = list(var="vector",filter="list", aggregation="list",start="POSIXct", end="POSIXct"), prototype = list(
-  filter=list(),
+setClass("Dataset", slots = list(var="character", aggregation="list", start="POSIXct", end="POSIXct"), prototype = list(
   aggregation=list()
 ))
 
-setClass("Verification", slots=list(method="character", var="character",state="character",start="POSIXct", end="POSIXct"), prototype = list(
+setClass("Timeseries", slots = list(dataset="Dataset"))
+
+setClass("Verification", slots=list(method="character",state="character",start="POSIXct", end="POSIXct",dataset="Dataset"), prototype = list(
   state="CREATED"
 ))
 

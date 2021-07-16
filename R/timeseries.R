@@ -48,11 +48,15 @@ setMethod("create",signature("Timeseries"), function(x){
   obs_sf <- stars::st_xy2sfc(obs_st, as_points = T)
   sim_sf <- stars::st_xy2sfc(sim_st, as_points = T)
 
-  obs_xts <- xts::as.xts(obs_sf)
-  sim_xts <- xts::as.xts(sim_sf)
+  # obs_xts <- xts::as.xts(obs_sf)
+  # sim_xts <- xts::as.xts(sim_sf)
 
-  data_sf <- merge(st_as_stars(list(obs=obs_sf$dis,sim=sim_sf$X))) %>% stars::st_set_dimensions(4,names = "set",values = c("obs","sim"))
-  # ggplot(data=df, aes(x=time,y=discharge, group=set, linetype=set, colour=set)) + geom_line(size=1) + theme_bw() + scale_linetype_manual(values = c("solid","dashed")) + scale_color_manual(values=c("black","blue"))
+  # original dimensions are lost after merging
+  data_sf <- merge(st_as_stars(list(obs=obs_sf$dis,sim=sim_sf$X))) %>%
+    setNames(x@var) %>% stars::st_set_dimensions(4,names = "set",values = c("obs","sim")) %>%
+      stars::st_set_dimensions(which = "geometry", values = stars::st_get_dimension_values(obs_sf,which = "geometry"), names = "geometry") %>%
+      stars::st_set_dimensions(which = "time", values = stars::st_get_dimension_values(obs_sf, which = "time"), names = "time") %>%
+      stars::st_set_dimensions(which = "stations", values = stars::st_get_dimension_values(obs_sf,which = "stations"),names = "stations")
 
   return(data_sf)
 

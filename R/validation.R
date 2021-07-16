@@ -28,7 +28,7 @@ setMethod("run", signature("Validation"), function(x){
   x@ts_plots <- file.path(output,"plots")
   # create netcdf output (directory)
   dir.create(dirname(x@netcdf),showWarnings = F)
-  dir.create(dirname(x@ts_plots), showWarnings = F)
+  dir.create(x@ts_plots, showWarnings = F)
   # create output file
   ncdf.create(x@netcdf)
   # TODO: validate x before running?

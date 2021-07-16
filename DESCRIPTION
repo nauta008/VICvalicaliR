@@ -14,7 +14,8 @@ Imports:
     lubridate,
     ncdf4.helpers,
     dplyr,
-    xts
+    xts,
+    gridExtra
 Depends: 
     logger,
     methods,

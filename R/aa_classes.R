@@ -22,6 +22,16 @@
 
 setClass("Frequency", slots = list(value= "numeric",period="character"))
 
+setClass("Aggregation", slots = list(type="character"))
+setClass("TemporalAggregation",slots = list(by="character", fun="function") ,contains = "Aggregation", prototype = list(
+  type="temporal",
+  fun=mean
+))
+
+setClass("Timeseries", slots = list(var="vector",filter="list", aggregation="list",start="POSIXct", end="POSIXct"), prototype = list(
+  filter=list(),
+  aggregation=list()
+))
 
 setClass("Verification", slots=list(method="character", var="character",state="character",start="POSIXct", end="POSIXct"), prototype = list(
   state="CREATED"
@@ -32,7 +42,10 @@ setClass("Verification", slots=list(method="character", var="character",state="c
 #' @slot start POSIXct.
 #' @slot end POSIXct.
 #'
-setClass("Validation", slots = list(start="POSIXct", end="POSIXct", verifications="list",netcdf="character"))
+setClass("Validation", slots = list(start="POSIXct", end="POSIXct", verifications="list",timeseries="list",netcdf="character",ts_plots="character"), prototype = list(
+  # timeseries <- list(),
+  # verifications <- list()
+))
 
 
 

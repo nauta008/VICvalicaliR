@@ -20,7 +20,6 @@ setMethod("start", signature("Validation"), function(x){
   for(verification in x@verifications){
     result_st <- start(verification)
     if(!is.null(result_st)){
-      browser()
       # create output file
       prefix <- sprintf("verification_%s", verification@method)
       ncdf_file <- file.path(x@netcdf,get.file(verification@dataset, file_format="ncdf", prefix=prefix))

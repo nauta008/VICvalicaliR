@@ -8,6 +8,7 @@ timeseries.plot <- function(data_sf, file=NULL){
     if(file.exists(file)){
       file.remove(file)
     }
+    log_info(sprintf("Write time series plots of %s to file %s.", var_name, file))
     pdf(file,width = 8, height = 4, onefile = T)
   }
   # TODO: maybe nice to plot a map with location of station and table with meta: upstream area, medium discharge, verification score ect.
@@ -19,9 +20,6 @@ timeseries.plot <- function(data_sf, file=NULL){
           ggplot2::geom_line() + ggplot2::scale_color_manual(values = c("black","blue")) + ggplot2:: theme_bw()
         print(p_ts)
       }
-      # slice data for each time series
-      # ggplot(data=df, aes(x=time,y=discharge, group=set, linetype=set, colour=set)) + geom_line(size=1) + theme_bw() + scale_linetype_manual(values = c("solid","dashed")) + scale_color_manual(values=c("black","blue"))
-
     }
   }
 

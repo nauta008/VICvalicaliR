@@ -4,13 +4,11 @@ setMethod("run", signature("Validation"), function(x){
   # create output directory
   output <- file.path(.VICvalicaliR$settings$output,"validation")
   dir.create(output, showWarnings = F, recursive = T)
-  x@netcdf <- file.path(output,"netcdf","verification_results.ncdf")
+  x@netcdf <- file.path(output,"netcdf")
   x@ts_plots <- file.path(output,"plots")
   # create netcdf output (directory)
-  dir.create(dirname(x@netcdf),showWarnings = F)
+  dir.create(x@netcdf,showWarnings = F)
   dir.create(x@ts_plots, showWarnings = F)
-  # create output file
-  ncdf.create(x@netcdf)
   # TODO: validate x before running?
   start(x)
   log_info("Validation run finished.")
@@ -21,15 +19,19 @@ setMethod("start", signature("Validation"), function(x){
   # evaluate model performance
   for(verification in x@verifications){
     result_st <- start(verification)
-    if(!is.null(result_st) && !is.null(x@netcdf)){
-      ncdf.write.data(x@netcdf,result_st)
+    if(!is.null(result_st)){
+      browser()
+      # create output file
+      prefix <- sprintf("verification_%s", verification@method)
+      ncdf_file <- file.path(x@netcdf,get.file(verification@dataset, file_format="ncdf", prefix=prefix))
+      ncdf.create(ncdf_file)
+      ncdf.write.data(ncdf_file,result_st)
     }
   }
   # generate timeseries
   for(ts in x@timeseries){
-    browser()
     series_sf <- data.get(ts, sdt=x@start, edt=x@end)
-    out_file <- file.path(x@ts_plots,sprintf("timeseries_%s.pdf",ts@dataset@var))
+    out_file <- file.path(x@ts_plots,get.file(ts@dataset, file_format="pdf", prefix="timeseries"))
     timeseries.plot(series_sf,out_file)
   }
 })

@@ -11,7 +11,13 @@ ncdf.data.read <- function(conn,var, sdt, edt){
   ny <- nc$dim$y$len
   # check for time dimension
   if("time" %in% dim_names){
-    time <- ncdf4.helpers::nc.get.time.series(nc)
+    t_units <- unlist(strsplit(nc$dim$time$units, split = " "))
+    time <- as.POSIXct(ncdf4.helpers::nc.get.time.series(nc))
+    # UBER HACK for time origins 0001-01-01. In some systems there is a 2 day time difference. I have no better method to fix this
+    if(as.Date(t_units[3])== as.Date("0001-01-01") &&  as.Date( nc$dim$time$vals[1], origin = "0001-01-01") == as.Date("1993-01-03")){
+      log_warn(sprintf("Fixing time time for %s. Please check timeseries for this file using ncdf4.helpers:: nc.get.time.series(%s)", conn,conn))
+      time <- time - lubridate::days(2)
+    }
     time_dim_idx <- which(dim_names=="time")
     sdt_idx <- 1
     edt_idx <- nc$dim$time$len

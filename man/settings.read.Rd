@@ -2,7 +2,7 @@
 % Please edit documentation in R/settings_read.R
 \name{settings.read}
 \alias{settings.read}
-\title{Title}
+\title{Read Settings}
 \usage{
 settings.read(con)
 }
@@ -13,5 +13,5 @@ settings.read(con)
 
 }
 \description{
-Title
+Read Settings
 }

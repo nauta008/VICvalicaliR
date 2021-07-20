@@ -24,6 +24,16 @@ validation:
  timeseries:
   - data:
      var: dis
+     filter:
+      - data: 
+         from: observation
+         var: dis
+         aggregation: 
+          - type: temporal
+            by: time
+            fun: !expr match.fun("median")
+        operator: gt
+        value: 750
      aggregation: 
       - type: temporal
         by: month

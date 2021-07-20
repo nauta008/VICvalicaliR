@@ -10,9 +10,13 @@ as.validation <- function(settings){
     validation@verifications <- append(validation@verifications, new_verification)
   }
   for(timeseries_settings in settings$timeseries){
+    if(is.null(timeseries_settings$data$start)){
+      timeseries_settings$data$start <- settings$start
+    }
+    if(!is.null(timeseries_settings$data$end)){
+      timeseries_settings$data$end <- settings$end
+    }
     ts <- as.timeseries(timeseries_settings)
-    #ts@start <- validation@start
-    #ts@end <- validation@end
     validation@timeseries <- append(validation@timeseries,ts)
   }
   return(validation)
@@ -25,10 +29,10 @@ as.validation <- function(settings){
   # read ncdfs
   log_debug(sprintf("Read %s from simulation data.", sim_var_name))
   #sim_data_st <- ncdf.data.read(.VICvalicaliR$settings$simulation$file,sim_var_name,...)
-  sim_data_st <- data.get(dataset,.VICvalicaliR$settings$simulation$file,sim_var_name,...)
+  sim_data_st <- data.get(dataset, sim_var_name, conn=.VICvalicaliR$settings$simulation$file, ...)
   log_debug(sprintf("Read %s from observation data.", obs_var_name))
   #obs_data_st <- ncdf.data.read(.VICvalicaliR$settings$simulation$file, obs_var_name,...)
-  obs_data_st <- data.get(dataset, .VICvalicaliR$settings$observation$file, obs_var_name,...)
+  obs_data_st <- data.get(dataset, obs_var_name, conn=.VICvalicaliR$settings$observation$file, ...)
   # check for specific discharge
   if(dataset@var == "specdis"){
     log_debug("Calculate specifc discharge")
@@ -47,10 +51,13 @@ as.validation <- function(settings){
     return(val)
   })
   obs_dims <- dim(obs_data_st)
+  sim_dims <- dim(sim_data_st)
   names(mask_obs) <- "mask"
-  # set simulation to equal 4th dimension
-  sim_data_st <- stars::st_as_stars(replicate(obs_dims[4],sim_data_st), dimensions=stars::st_dimensions(sim_data_st))
-  sim_data_st <- merge(sim_data_st) %>% stars::st_set_dimensions(4,values = stars::st_get_dimension_values(obs_data_st,which = "stations"), names="stations")
+  if(!all(obs_dims == sim_dims)){
+    # set simulation to equal 4th dimension
+    sim_data_st <- stars::st_as_stars(replicate(obs_dims[4],sim_data_st), dimensions=stars::st_dimensions(sim_data_st))
+    sim_data_st <- merge(sim_data_st) %>% stars::st_set_dimensions(4,values = stars::st_get_dimension_values(obs_data_st,which = "stations"), names="stations")
+  }
   # apply observations mask over simulation data
   sim_data_st <- stars::st_apply(sim_data_st,MARGIN=c("time"),FUN=function(y){
     y * mask_obs$mask

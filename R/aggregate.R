@@ -10,7 +10,8 @@ setMethod('aggregate', signature("TemporalAggregation"), function(x,st_data){
   }
   # TODO: how to handle aggregation with st_apply? Dimensions will change
   else if(x@by =="time"){
-    st_data <- stars::st_apply(st_data, MARGIN=x@by,FUN=x@fun)
+    margin <- dim_names[!dim_names %in% x@by]
+    st_data <- stars::st_apply(st_data, MARGIN=margin,FUN=x@fun)
   }
   else{
     log_warn(sprintf("Cannot perform temporal aggregation on %s", paste(names(st_data),sep = ",")))

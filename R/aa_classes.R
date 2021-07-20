@@ -22,15 +22,18 @@
 
 setClass("Frequency", slots = list(value= "numeric",period="character"))
 
+setClass("Dataset", slots = list(from="character",var="character", aggregation="list", filter="list" ,start="POSIXct", end="POSIXct"), prototype = list(
+  aggregation=list(),
+  filter=list()
+
+))
+setClass("Filter", slots = list(dataset="Dataset", value="numeric",operator="character"))
 setClass("Aggregation", slots = list(type="character"))
 setClass("TemporalAggregation",slots = list(by="character", fun="function") ,contains = "Aggregation", prototype = list(
   type="temporal",
   fun=mean
 ))
 
-setClass("Dataset", slots = list(var="character", aggregation="list", start="POSIXct", end="POSIXct"), prototype = list(
-  aggregation=list()
-))
 
 setClass("Timeseries", slots = list(dataset="Dataset"))
 

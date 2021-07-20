@@ -1,5 +1,6 @@
 
 setMethod('aggregate', signature("TemporalAggregation"), function(x,st_data){
+  log_debug(sprintf("Temporal aggregation of %s by %s", paste(names(st_data),sep = ","), x@by))
   dim_names <- dimnames(st_data)
   # TODO: some functions return multiple results. How to handle these output?
   if(x@by == "month" || x@by=="year" || x@by=="day"){

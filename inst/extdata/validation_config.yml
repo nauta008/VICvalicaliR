@@ -1,0 +1,39 @@
+mode: validation 
+log_level: DEBUG
+observation:
+ file: !expr system.file("extdata", "observations.nc", package = "VICvalicaliR")
+ dis: dis
+ specdis: specdis
+simulation:
+ file: !expr system.file("extdata", "simulations.nc", package = "VICvalicaliR")
+domain:
+ file : !expr system.file("extdata", "vic_domain.nc", package = "VICvalicaliR")
+routing: 
+ file: !expr system.file("extdata", "vic_routing.nc", package = "VICvalicaliR")
+ upstream_area: upstream_area
+validation:
+ start: 1993-01-01
+ end: 1993-12-31
+ verification:
+  - method: KGE
+    data:
+     var: specdis
+     aggregation:
+      - type: temporal
+        by: month
+ timeseries:
+  - data:
+     var: dis
+     aggregation: 
+      - type: temporal
+        by: month
+  - data:
+     var: specdis
+     aggregation: 
+      - type: temporal
+        by: month
+  - data: 
+     var: specdis
+  - data: 
+     var: dis
+output: ./example_output

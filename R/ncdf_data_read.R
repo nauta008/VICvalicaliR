@@ -1,5 +1,5 @@
 
-ncdf.data.read <- function(conn,var, sdt=NULL, edt=NULL){
+ncdf.data.read <- function(conn,var, sdt, edt){
   nc <- ncdf4::nc_open(conn)
   # get dim names
   dim_names <- sapply(nc$var[[var]]$dim,FUN = function(x){x$name})
@@ -11,18 +11,24 @@ ncdf.data.read <- function(conn,var, sdt=NULL, edt=NULL){
   ny <- nc$dim$y$len
   # check for time dimension
   if("time" %in% dim_names){
-    time <- ncdf4.helpers::nc.get.time.series(nc)
+    t_units <- unlist(strsplit(nc$dim$time$units, split = " "))
+    time <- as.POSIXct(ncdf4.helpers::nc.get.time.series(nc))
+    # UBER HACK for time origins 0001-01-01. In some systems there is a 2 day time difference. I have no better method to fix this
+    if(as.Date(t_units[3])== as.Date("0001-01-01") &&  as.Date( nc$dim$time$vals[1], origin = "0001-01-01") == as.Date("1993-01-03")){
+      log_warn(sprintf("Fixing time time for %s. Please check timeseries for this file using ncdf4.helpers:: nc.get.time.series(%s)", conn,conn))
+      time <- time - lubridate::days(2)
+    }
     time_dim_idx <- which(dim_names=="time")
     sdt_idx <- 1
     edt_idx <- nc$dim$time$len
-    if(!is.null(sdt)){
+    if(! missing(sdt)){
       sdt_idx <- which(as.character(time)==as.character(sdt))
       if(length(sdt_idx)!=1){
         log_warn(sprintf("Cannot find start date %s in ncdf file %s. Read all times from start.", as.character(sdt),conn))
         sdt_idx <- 1
       }
     }
-    if(!is.null(edt)){
+    if(! missing(edt)){
       edt_idx <- which(as.character(time)==as.character(edt))
       if(length(edt_idx)!= 1){
         log_warn(sprintf("Cannot find end date %s in ncdf file %s. Read all times till end", as.character(edt),conn))

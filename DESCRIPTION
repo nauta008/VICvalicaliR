@@ -15,9 +15,9 @@ Imports:
     ncdf4.helpers,
     dplyr,
     xts,
-    gridExtra
+    gridExtra,
+    stars
 Depends: 
     logger,
-    methods,
-    stars
+    methods
 RoxygenNote: 7.1.0

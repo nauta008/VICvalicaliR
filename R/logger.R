@@ -3,7 +3,6 @@
 #'
 #' @return
 #'
-#' @examples
 logger.init <- function(){
   # log to console
   log_format <- layout_glue_generator(format = '{level} {time}: {msg}')

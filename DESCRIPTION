@@ -1,20 +1,22 @@
 Package: VICvalicaliR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: VIC5 validation/calibration.
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Lisanne Nauta
+Maintainer: Lisanne Nauta <lisanne.nauta@wur.nl>
+Description: Package for validation and calibration of the VIC5 model by using yaml configurations files.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: 
     yaml,
-    stars,
     lubridate,
     ncdf4.helpers,
-    dplyr
+    dplyr,
+    xts,
+    gridExtra,
+    stars
 Depends: 
-    logger
+    logger,
+    methods
 RoxygenNote: 7.1.0

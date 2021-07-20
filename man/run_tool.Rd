@@ -15,3 +15,8 @@ run_tool(config)
 \description{
 Run Tool
 }
+\examples{
+# example of a validation
+con <- system.file("extdata","validation_config.yml", package="VICvalicaliR")
+run_tool(con)
+}

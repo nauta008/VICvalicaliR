@@ -1,5 +1,15 @@
 
-ncdf.create <- function(file){
+#' create ncdf
+#'
+#' @param file
+#' @param domain_file
+#' @description Creates new NetCDF file from VIC domain file. Writes mask, grid, lat and lon variables.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+ncdf.create <- function(file, domain_file){
   # remove old file
   if(file.exists(file)){
     file.remove(file)
@@ -7,7 +17,7 @@ ncdf.create <- function(file){
   sys_info <- Sys.info()
   nc_vars <- list()
   # load domain
-  nc_domain <- ncdf4::nc_open(.VICvalicaliR$settings$domain$file)
+  nc_domain <- ncdf4::nc_open(domain_file)
   mask <- ncdf4::ncvar_get(nc_domain,"mask")
   # create new ncdf file with domain properties
   nc_new <- ncdf4::nc_create(file,nc_domain$var$mask, force_v4 = T)
@@ -34,13 +44,15 @@ ncdf.create <- function(file){
 }
 
 
-#' Title
+#' write data
 #'
 #' @param file
 #' @param st_data
+#' @description Writes a stars data object to NetCDF file
 #'
 #' @return
 #' @importFrom dplyr select
+#' @export
 #'
 #' @examples
 ncdf.write.data <- function(file, st_data){
@@ -67,9 +79,15 @@ ncdf.write.data <- function(file, st_data){
 
   # loop through attributes
   for(var_name in var_names){
-    long_name <- var_name
-    nc_var <- ncdf4::ncvar_def(var_name,"", nc_dim_list, 1e20, prec = "float",compression = 9)
-    ncdf4::ncvar_add(nc,nc_var)
+    # create new var
+    if(!var_name %in% names(nc$var)){
+      long_name <- var_name
+      nc_var <- ncdf4::ncvar_def(var_name,"", nc_dim_list, 1e20, longname = long_name,prec = "float",compression = 9)
+      ncdf4::ncvar_add(nc,nc_var)
+    }
+    else{
+      nc_var <- nc$var[[var_name]]
+    }
     ncdf4::nc_close(nc)
     nc <- ncdf4::nc_open(file, write = T)
     ncdf4::ncvar_put(nc,var_name, vals= st_data %>% select(var_name) %>% pull())

@@ -2,16 +2,13 @@
 % Please edit documentation in R/ncdf_write_data.R
 \name{ncdf.write.data}
 \alias{ncdf.write.data}
-\title{Title}
+\title{write data}
 \usage{
 ncdf.write.data(file, st_data)
-}
-\arguments{
-\item{st_data}{}
 }
 \value{
 
 }
 \description{
-Title
+Writes a stars data object to NetCDF file
 }

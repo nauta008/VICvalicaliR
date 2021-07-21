@@ -19,13 +19,11 @@
 #' @slot value numeric.
 #' @slot period character.
 #'
-
 setClass("Frequency", slots = list(value= "numeric",period="character"))
 
 setClass("Dataset", slots = list(from="character",var="character", aggregation="list", filter="list" ,start="POSIXct", end="POSIXct"), prototype = list(
   aggregation=list(),
   filter=list()
-
 ))
 setClass("Filter", slots = list(dataset="Dataset", value="numeric",operator="character"))
 setClass("Aggregation", slots = list(type="character"))
@@ -33,10 +31,7 @@ setClass("TemporalAggregation",slots = list(by="character", fun="function") ,con
   type="temporal",
   fun=mean
 ))
-
-
 setClass("Timeseries", slots = list(dataset="Dataset"))
-
 setClass("Verification", slots=list(method="character",state="character",start="POSIXct", end="POSIXct",dataset="Dataset"), prototype = list(
   state="CREATED"
 ))
@@ -51,6 +46,6 @@ setClass("Validation", slots = list(start="POSIXct", end="POSIXct", verification
   # verifications <- list()
 ))
 
-
+setClass("Params", slots = list(file="character"))
 
 

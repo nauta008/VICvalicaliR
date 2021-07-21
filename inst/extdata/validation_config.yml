@@ -1,4 +1,4 @@
-mode: validation 
+mode: validation
 log_level: DEBUG
 observation:
  file: !expr system.file("extdata", "observations.nc", package = "VICvalicaliR")
@@ -8,9 +8,11 @@ simulation:
  file: !expr system.file("extdata", "simulations.nc", package = "VICvalicaliR")
 domain:
  file : !expr system.file("extdata", "vic_domain.nc", package = "VICvalicaliR")
-routing: 
+routing:
  file: !expr system.file("extdata", "vic_routing.nc", package = "VICvalicaliR")
  upstream_area: upstream_area
+params:
+  file: !expr system.file("extdata", "vic_params.nc", package = "VICvalicaliR")
 validation:
  start: 1993-01-01
  end: 1993-12-31
@@ -25,25 +27,25 @@ validation:
   - data:
      var: dis
      filter:
-      - data: 
+      - data:
          from: observation
          var: dis
-         aggregation: 
+         aggregation:
           - type: temporal
             by: time
             fun: !expr match.fun("median")
         operator: gt
         value: 750
-     aggregation: 
+     aggregation:
       - type: temporal
         by: month
   - data:
      var: specdis
-     aggregation: 
+     aggregation:
       - type: temporal
         by: month
-  - data: 
+  - data:
      var: specdis
-  - data: 
+  - data:
      var: dis
 output: ./example_output

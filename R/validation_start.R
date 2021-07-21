@@ -23,7 +23,7 @@ setMethod("start", signature("Validation"), function(x){
       # create output file
       prefix <- sprintf("verification_%s", verification@method)
       ncdf_file <- file.path(x@netcdf,get.file(verification@dataset, file_format="ncdf", prefix=prefix))
-      ncdf.create(ncdf_file)
+      ncdf.create(ncdf_file, .VICvalicaliR$settings$domain$file)
       ncdf.write.data(ncdf_file,result_st)
     }
   }

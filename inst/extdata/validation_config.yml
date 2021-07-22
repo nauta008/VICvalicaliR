@@ -11,13 +11,17 @@ domain:
 routing:
  file: !expr system.file("extdata", "vic_routing.nc", package = "VICvalicaliR")
  upstream_area: upstream_area
-params:
-  file: !expr system.file("extdata", "vic_params.nc", package = "VICvalicaliR")
 validation:
  start: 1993-01-01
  end: 1993-12-31
  verification:
   - method: KGE
+    data:
+     var: specdis
+     aggregation:
+      - type: temporal
+        by: month
+  - method: NSE
     data:
      var: specdis
      aggregation:

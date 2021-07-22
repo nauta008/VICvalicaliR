@@ -2,6 +2,9 @@
 as.dataset <- function(settings){
   dataset <- new("Dataset")
   # REQUIRED slots
+  if(is.null(settings$start) || is.null(settings$end)){
+    stop("Missing arguments start or end.")
+  }
   dataset@var <- settings$var
   dataset@start <- lubridate::parse_date_time(settings$start,"ymd")
   dataset@end <- lubridate::parse_date_time(settings$end, "ymd")

@@ -93,7 +93,9 @@ ncdf.write.data <- function(file, st_data){
     }
     ncdf4::nc_close(nc)
     nc <- ncdf4::nc_open(file, write = T)
-    ncdf4::ncvar_put(nc,var_name, vals= st_data %>% select(var_name) %>% pull())
+    arr <- st_data %>% select(var_name) %>% pull()
+    arr[abs(arr)==Inf] <- NA
+    ncdf4::ncvar_put(nc,var_name, vals= arr)
   }
   ncdf4::nc_close(nc)
 }

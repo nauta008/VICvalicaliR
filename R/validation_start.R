@@ -31,6 +31,7 @@ setMethod("start", signature("Validation"), function(x){
   }
   # generate timeseries
   for(ts in x@timeseries){
+    log_info(sprintf("Evaluating timeseries of %s.", ts@dataset@var))
     series_sf <- data.get(ts, sdt=x@start, edt=x@end)
     out_file <- file.path(x@plots,get.file(ts@dataset, file_format="pdf", prefix="timeseries"))
     timeseries.plot(series_sf,out_file)

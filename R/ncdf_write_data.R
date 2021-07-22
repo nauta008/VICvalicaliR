@@ -43,7 +43,7 @@ ncdf.create <- function(file, domain_file){
   # close file
   ncdf4::nc_close(nc_new)
   ncdf4::nc_close(nc_domain)
-  log_info(sprintf("Created ncdf output file %s", file))
+  log_info(sprintf("Created NetCDF output file %s", file))
 }
 
 

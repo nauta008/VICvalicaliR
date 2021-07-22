@@ -1,6 +1,6 @@
 
 setMethod("plot.map", signature("Verification"), function(x,st_data, file,...){
-
+  browser()
   maps <- list()
   var_names <- names(st_data)
   breaks <- get.breaks(x)

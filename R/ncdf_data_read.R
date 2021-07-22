@@ -11,7 +11,7 @@
 #'
 #' @examples
 ncdf.data.read <- function(conn,var, sdt, edt){
-  log_info(sprintf("Read %s from %s", var,conn))
+  log_debug(sprintf("Read %s from %s", var,conn))
   nc <- ncdf4::nc_open(conn)
   # get dim names
   dim_names <- sapply(nc$var[[var]]$dim,FUN = function(x){x$name})

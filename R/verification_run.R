@@ -20,15 +20,15 @@ setMethod("start", signature("Verification") ,function(x){
   }
 
   # set attributes names
-  if(length(res_st)==1){
-    names(res_st) <- sprintf("%s_%s",x@var,x@method)
-  }
-  # for verifcations with sub components. e.g. KGE
-  else if(length(res_st)>1){
-    names(res_st) <- sapply(names(res_st), FUN=function(attr_name){
-      new_name <- sprintf("%s_%s_%s",x@dataset@var,x@method,attr_name)
-    })
-  }
+  # if(length(res_st)==1){
+  #   names(res_st) <- sprintf("%s_%s",x@var,x@method)
+  # }
+  # # for verifcations with sub components. e.g. KGE
+  # else if(length(res_st)>1){
+  #   names(res_st) <- sapply(names(res_st), FUN=function(attr_name){
+  #     new_name <- sprintf("%s_%s_%s",x@dataset@var,x@method,attr_name)
+  #   })
+  # }
   x@state <- "SUCCESS"
   return(res_st)
 })

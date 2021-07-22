@@ -12,6 +12,7 @@ setMethod('data.get', signature("Dataset"), function(x, var_name ,conn, ...){
   }
 
   data_st <- ncdf.data.read(conn, var_name, ...)
+  data_st <- .set.coords(data_st)
 
   for(data_filter in x@filter){
     data_st <- filter(data_filter,data_st)

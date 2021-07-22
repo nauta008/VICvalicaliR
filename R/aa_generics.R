@@ -13,3 +13,6 @@ setGeneric("create", function(x) standardGeneric("create"))
 setGeneric("data.get",function(x,...) standardGeneric("data.get"))
 
 setGeneric("get.file", function(x,...) standardGeneric("get.file"))
+
+setGeneric("plot.map", function(x,st_data,...) standardGeneric("plot.map"))
+setGeneric("get.breaks", function(x,...) standardGeneric("get.breaks"))

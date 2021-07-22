@@ -37,6 +37,9 @@ ncdf.create <- function(file, domain_file){
   # add global attributes
   ncdf4::ncatt_put(nc_new,0,attname = "user",attval = sys_info[["user"]],prec = "text")
   ncdf4::ncatt_put(nc_new,0, attname = "date_created", attval = as.character(lubridate::now()))
+  ncdf4::ncatt_put(nc_new, 0, attname = "VICvalicaliR_version", attval = as.character(packageVersion("VICvalicaliR")))
+  ncdf4::ncatt_put(nc_new, 0, attname = "VICvalicaliR_reference", attval = "https://github.com/nauta008/VICvalicaliR", prec = "text")
+
   # close file
   ncdf4::nc_close(nc_new)
   ncdf4::nc_close(nc_domain)

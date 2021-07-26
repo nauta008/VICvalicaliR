@@ -3,7 +3,6 @@
 setMethod("plot.data", signature("Verification"), function(x,  base_map , st_data){
   ggplot <- NULL
   var_name <- names(st_data)[1]
-  browser()
   if(toupper(x@method) =="KGE"){
 
     if(var_name == "kge"){

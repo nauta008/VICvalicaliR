@@ -22,7 +22,7 @@ setMethod("start", signature("Validation"), function(x){
     if(!is.null(result_st)){
       # create output file
       prefix <- sprintf("verification_%s", verification@method)
-      ncdf_file <- file.path(x@netcdf,get.file(verification@dataset, file_format="ncdf", prefix=prefix))
+      ncdf_file <- file.path(x@netcdf,get.file(verification@dataset, file_format="nc", prefix=prefix))
       ncdf.create(ncdf_file, .VICvalicaliR$settings$domain$file)
       ncdf.write.data(ncdf_file,result_st)
       plot_file <- file.path(x@plots, get.file(verification@dataset,file_format="pdf",prefix=prefix))

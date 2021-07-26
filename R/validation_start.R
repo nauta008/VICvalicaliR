@@ -26,7 +26,7 @@ setMethod("start", signature("Validation"), function(x){
       ncdf.create(ncdf_file, .VICvalicaliR$settings$domain$file)
       ncdf.write.data(ncdf_file,result_st)
       plot_file <- file.path(x@plots, get.file(verification@dataset,file_format="pdf",prefix=prefix))
-      plot.map(verification,result_st, file=plot_file)
+      create.map(verification,result_st, file=plot_file)
     }
   }
   # generate timeseries

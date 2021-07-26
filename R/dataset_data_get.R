@@ -1,8 +1,5 @@
 
-
 setMethod('data.get', signature("Dataset"), function(x, var_name ,conn){
-
-  browser()
   if(missing(conn) && is.null(x@from)){
     log_error(sprintf("Cannot identify source file for variable %s", var_name))
     stop()

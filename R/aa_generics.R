@@ -14,5 +14,5 @@ setGeneric("data.get",function(x,...) standardGeneric("data.get"))
 
 setGeneric("get.file", function(x,...) standardGeneric("get.file"))
 
-setGeneric("plot.map", function(x,st_data,...) standardGeneric("plot.map"))
-setGeneric("get.breaks", function(x,...) standardGeneric("get.breaks"))
+setGeneric("create.map", function(x,st_data,...) standardGeneric("create.map"))
+setGeneric("plot.data", function(x,base_map, st_data, ....) standardGeneric("plot.data"))

@@ -6,6 +6,7 @@
 logger.init <- function(){
   # log to console
   log_format <- layout_glue_generator(format = '{level} {time}: {msg}')
+  log_layout(layout_glue_colors)
   log_layout(log_format, index = 1)
   log_appender(appender_console)
   .VICvalicaliR$settings$log_level <- toupper(.VICvalicaliR$settings$log_level)

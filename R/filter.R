@@ -1,6 +1,7 @@
 
 setMethod("filter", signature("Filter"), function(x, st_data){
   var_name <- names(st_data)
+  log_debug(sprintf("Apply filter on %s.",var_name))
   # The filter stars data result must contain x,y
   filter_st <- data.get(x@dataset, x@dataset@var)
   filtered_arr <- filter_st %>% pull()

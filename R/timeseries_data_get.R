@@ -1,7 +1,7 @@
 
 setMethod("data.get",signature("Timeseries"), function(x,...){
 
-  data_st <- .validation.data.get(x@dataset,...)
+  data_st <- .validation.data.get(x@dataset)
 
   # convert to point geometries
   obs_sf <- stars::st_xy2sfc(data_st$obs, as_points = T)

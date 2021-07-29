@@ -6,9 +6,6 @@
 \usage{
 settings.read(con)
 }
-\arguments{
-\item{file}{}
-}
 \value{
 
 }

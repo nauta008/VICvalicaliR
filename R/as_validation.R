@@ -4,8 +4,8 @@ as.validation <- function(settings){
   validation@start <- lubridate::parse_date_time(settings$start, "ymd")
   validation@end <- lubridate::parse_date_time(settings$end, "ymd")
   for(veri_settings in settings$verification){
-    veri_settings$start <- validation@start
-    veri_settings$end <- validation@end
+    veri_settings$start <- settings$start
+    veri_settings$end <- settings$end
     new_verification <- as.verification(veri_settings)
     validation@verifications <- append(validation@verifications, new_verification)
   }
@@ -13,7 +13,7 @@ as.validation <- function(settings){
     if(is.null(timeseries_settings$data$start)){
       timeseries_settings$data$start <- settings$start
     }
-    if(!is.null(timeseries_settings$data$end)){
+    if(is.null(timeseries_settings$data$end)){
       timeseries_settings$data$end <- settings$end
     }
     ts <- as.timeseries(timeseries_settings)
@@ -23,16 +23,16 @@ as.validation <- function(settings){
 }
 
 
-.validation.data.get <- function(dataset,...){
+.validation.data.get <- function(dataset){
   obs_var_name <- .VICvalicaliR$settings$observation[[dataset@var]]
   sim_var_name <- "OUT_DISCHARGE"
   # read ncdfs
   log_debug(sprintf("Read %s from simulation data.", sim_var_name))
   #sim_data_st <- ncdf.data.read(.VICvalicaliR$settings$simulation$file,sim_var_name,...)
-  sim_data_st <- data.get(dataset, sim_var_name, conn=.VICvalicaliR$settings$simulation$file, ...)
+  sim_data_st <- data.get(dataset, sim_var_name, conn=.VICvalicaliR$settings$simulation$file)
   log_debug(sprintf("Read %s from observation data.", obs_var_name))
   #obs_data_st <- ncdf.data.read(.VICvalicaliR$settings$simulation$file, obs_var_name,...)
-  obs_data_st <- data.get(dataset, obs_var_name, conn=.VICvalicaliR$settings$observation$file, ...)
+  obs_data_st <- data.get(dataset, obs_var_name, conn=.VICvalicaliR$settings$observation$file)
   # check for specific discharge
   if(dataset@var == "specdis"){
     log_debug("Calculate specifc discharge")

@@ -13,6 +13,7 @@ nse <- function(sim,obs){
     val <- 1 - a/c
     return(val)
   })
+  names(res) <- "NSE"
   return(res)
 }
 
@@ -61,3 +62,4 @@ kge <- function(sim,obs, use_gamma=T){
   names(res) <- c("kge","corr","rat_sd","rat_mean","rat_cv")
   return(res)
 }
+

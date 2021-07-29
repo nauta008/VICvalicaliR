@@ -2,6 +2,7 @@
 #' Read Settings
 #'
 #' @param file
+#' @export
 #'
 #' @return
 settings.read <- function(con){

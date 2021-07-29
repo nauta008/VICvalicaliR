@@ -1,7 +1,7 @@
 Package: VICvalicaliR
 Type: Package
 Title: VIC5 validation/calibration.
-Version: 0.1.0
+Version: 0.2.0
 Author: Lisanne Nauta
 Maintainer: Lisanne Nauta <lisanne.nauta@wur.nl>
 Description: Package for validation and calibration of the VIC5 model by using yaml configurations files.
@@ -15,8 +15,11 @@ Imports:
     dplyr,
     xts,
     gridExtra,
-    stars
+    stars,
+    rnaturalearth,
+    RColorBrewer
 Depends: 
     logger,
-    methods
+    methods,
+    R (>= 2.10)
 RoxygenNote: 7.1.0

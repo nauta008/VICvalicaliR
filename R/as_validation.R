@@ -6,6 +6,8 @@ as.validation <- function(settings){
   for(veri_settings in settings$verification){
     veri_settings$start <- settings$start
     veri_settings$end <- settings$end
+    veri_settings$sim_file <- .VICvalicaliR$settings$simulation$file
+    veri_settings$obs_file <-  .VICvalicaliR$settings$observation$file
     new_verification <- as.verification(veri_settings)
     validation@verifications <- append(validation@verifications, new_verification)
   }
@@ -23,16 +25,16 @@ as.validation <- function(settings){
 }
 
 
-.validation.data.get <- function(dataset){
+.validation.data.get <- function(dataset, sim_file, obs_file){
   obs_var_name <- .VICvalicaliR$settings$observation[[dataset@var]]
   sim_var_name <- "OUT_DISCHARGE"
   # read ncdfs
   log_debug(sprintf("Read %s from simulation data.", sim_var_name))
   #sim_data_st <- ncdf.data.read(.VICvalicaliR$settings$simulation$file,sim_var_name,...)
-  sim_data_st <- data.get(dataset, sim_var_name, conn=.VICvalicaliR$settings$simulation$file)
+  sim_data_st <- data.get(dataset, sim_var_name, conn=sim_file)
   log_debug(sprintf("Read %s from observation data.", obs_var_name))
   #obs_data_st <- ncdf.data.read(.VICvalicaliR$settings$simulation$file, obs_var_name,...)
-  obs_data_st <- data.get(dataset, obs_var_name, conn=.VICvalicaliR$settings$observation$file)
+  obs_data_st <- data.get(dataset, obs_var_name, conn=obs_file)
   # check for specific discharge
   if(dataset@var == "specdis"){
     log_debug("Calculate specifc discharge")

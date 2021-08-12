@@ -46,7 +46,7 @@ setClass("TemporalAggregation",slots = list(by="character", fun="function") ,con
   fun=mean
 ))
 setClass("Timeseries", slots = list(dataset="Dataset"))
-setClass("Verification", slots=list(method="character",state="character",start="POSIXct", end="POSIXct",dataset="Dataset"), prototype = list(
+setClass("Verification", slots=list(method="character",state="character",start="POSIXct", end="POSIXct", obs_file="character", sim_file="character",dataset="Dataset"), prototype = list(
   state="CREATED"
 ))
 
@@ -60,6 +60,15 @@ setClass("Validation", slots = list(start="POSIXct", end="POSIXct", verification
   # verifications <- list()
 ))
 
-setClass("Params", slots = list(file="character"))
+setClass("Objective", slots = list(method="character", data="Dataset"), prototype = list(
+  method="NSE"
+))
+
+setClass("Calibration", slots = list(start="POSIXct", end="POSIXct", max_iter="numeric", params="character", objective="Objective", maximizer="logical" ,iterations="numeric"), prototype = list(
+  max_iter=10,
+  iterations=0,
+  maximizer=TRUE,
+  params=c("ks")
+))
 
 

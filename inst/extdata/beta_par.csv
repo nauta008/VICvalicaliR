@@ -1,0 +1,2 @@
+"name","nc_name","long_name","units","description","ndims","dim_nlayer","dim_month","dim_snow_band","dim_root_zone","default","lower","upper"
+"ks","Ksat","Ksat","mm day^-1","Saturated hydrologic conductivity",3,TRUE,FALSE,FALSE,FALSE,1000,0.1,1e+08

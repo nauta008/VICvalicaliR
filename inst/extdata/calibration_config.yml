@@ -1,0 +1,39 @@
+mode: calibration
+log_level: DEBUG
+domain:
+ file : !expr system.file("extdata", "vic_domain.nc", package = "VICvalicaliR")
+observation:
+ file: !expr system.file("extdata", "observations.nc", package = "VICvalicaliR")
+ dis: dis
+ specdis: specdis
+global:
+  file: !expr system.file("extdata", "vic_global_params.txt", package = "VICvalicaliR")
+params: 
+  file: !expr system.file("extdata", "vic_params.nc", package = "VICvalicaliR")
+routing:
+ file: !expr system.file("extdata", "vic_routing.nc", package = "VICvalicaliR")
+ upstream_area: upstream_area
+vic:
+  exe: !expr system.file("extdata", "vic_image.exe", package = "VICvalicaliR")
+calibration:
+  start: 1993-01-01
+  end: 1993-01-31
+  params: ['ks']
+  max_iter: 100
+  maximizer: TRUE
+  objective:
+   method: NSE
+   data:
+    var: specdis
+    aggregation:
+     - type: temportal
+       by: month
+  verification:
+   method: NSE
+   data:
+    var: specdis
+    aggregation:
+     - type: temporal
+       by: month
+output: ./example_calibration
+ 

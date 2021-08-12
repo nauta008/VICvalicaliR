@@ -13,6 +13,13 @@ as.verification <- function(settings){
     settings$data$end <- settings$end
   }
 
+  if(!is.null(settings$obs_file)){
+    verification@obs_file <- settings$obs_file
+  }
+  if(!is.null(settings$sim_file)){
+    verification@sim_file <- settings$sim_file
+  }
+
   verification@dataset <- as.dataset(settings$data)
 
   return(verification)

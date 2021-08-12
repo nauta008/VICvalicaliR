@@ -1,0 +1,6 @@
+name,default,lower,upper,beta,type
+ks_gamma1,-0.6,-0.66,-0.54,ks,soil
+ks_gamma2,0.0126,0.01134,0.01386,ks,soil
+ks_gamma3,-0.0064,-0.00704,-0.00576,ks,soil
+h1_gamma1,0.05,0.01,0.1,h1,soil
+h2_gamma1,0.3,0.12,0.5,h2,soil

@@ -52,4 +52,4 @@ validation:
      var: specdis
   - data:
      var: dis
-output: ./example_output
+output: ./example_validation
